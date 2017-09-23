@@ -3,6 +3,19 @@ import logo from './logo.svg';
 import './App.css';
 import PropTypes from 'prop-types';
 
+var PLAYERS = [
+  {
+    name: "Scottie Too Hottie",
+    score: 47,
+    key: 1,
+  },
+  {
+    name: "Sean Gotta have doz macros",
+    score: 2,
+    key: 2,
+  }
+]
+
 function Header(props){
   return(
     <div className="header">
@@ -15,6 +28,21 @@ Header.propTypes = {
   title: PropTypes.string,
 }
 
+function Counter(props){
+  return(
+
+      <div className="counter">
+        <button className="counter-action decrement">-</button>
+        <div className="counter-score">{props.score}</div>
+        <button className="counter-action increment">+</button>
+      </div>
+  )
+}
+
+Counter.propTypes = {
+  score: PropTypes.number,
+}
+
 function Player(props){
   return(
     <div className="player">
@@ -22,15 +50,12 @@ function Player(props){
         {props.name}
       </div>
       <div className="player-score">
-        <div className="counter">
-          <button className="counter-action decrement">-</button>
-          <div className="counter-score">{props.score}</div>
-          <button className="counter-action increment">+</button>
-        </div>
+        <Counter score={props.score} />
       </div>
     </div>
   )
 }
+
 
 Player.propTypes = {
   name: PropTypes.string,
@@ -43,8 +68,9 @@ function Application(props) {
       <div className="scoreboard">
         <Header title={props.title} />
         <div className="players">
-          <Player name="Sean mcSucksaLot" score={31}/>
-          <Player name="Scottie Schneider" score={99}/>
+          {props.players.map(function(player){
+            return <Player name={player.name} score={player.score} key={player.key}/>
+          })}
         </div>
       </div>
     </div>
@@ -53,10 +79,12 @@ function Application(props) {
 
 Application.propTypes = {
   title: PropTypes.string,
+  players: PropTypes.array,
 };
 
 Application.defaultProps = {
   title: "Ultimate Score Counter 3000",
+  players: PLAYERS,
 }
 
 
